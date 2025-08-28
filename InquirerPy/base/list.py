@@ -192,6 +192,10 @@ class BaseListPrompt(BaseComplexPrompt):
         Returns:
             Boolean indicating if the action hits the cap.
         """
+        if not getattr(self, "_filtered_choices", None):
+            self._set_error("No matches found")
+            self._application.invalidate()
+            return False  # No movement
         if self._cycle:
             self.content_control.selected_choice_index = (
                 self.content_control.selected_choice_index + 1
@@ -215,6 +219,10 @@ class BaseListPrompt(BaseComplexPrompt):
         Returns:
             Boolean indicating if the action hits the cap.
         """
+        if not getattr(self, "_filtered_choices", None):
+            self._set_error("No matches found")
+            self._application.invalidate()
+            return False  # No movement
         if self._cycle:
             self.content_control.selected_choice_index = (
                 self.content_control.selected_choice_index - 1
